@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.search{
+    height:auto;
+    padding-top: 10vh;
+    background-color: #111111;
+    color:white;
+}
+
+
+.line{
+    width: 90%;
+    margin-left:3%;
+    background: linear-gradient(to right, #0BDA51, transparent);
+    height: 2px;
+    border: none;
+}
+
+.Heading{
+    padding-left: 3%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    margin:0;
+}
+
+.Heading span{
+    color: #0BDA51;
+}
+
+.card{
+    padding: 3%;
+    border-left: #666666 solid 1px;
+}
+
+.image{
+    padding: 1.5%;
+}
+.img{
+    width: 100%;
+    height: auto;
+}
+
+.searchBar{
+    height: 60%;
+}
+
+.desc{
+    padding: 0% 5%;
+    height: 40%;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 200;
+    font-size: 1.3rem;
+    text-align: center;
+}
+
+.searchHero{
+    height: 100%;
+}

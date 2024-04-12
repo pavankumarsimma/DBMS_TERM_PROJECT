@@ -1,0 +1,7 @@
+.candlestick{
+    background-color: #111111;
+    display: flex;
+    justify-content: center;
+    padding-left: 5%;
+    height: 100%;
+}
