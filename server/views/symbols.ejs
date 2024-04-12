@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Data</title>
+    <style type="text/css">
+        .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}
+        .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}
+        .tftable tr {background-color:#ffffff;}
+        .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}
+        .tftable tr:hover {background-color:#e0ffff;}
+    </style>
+</head>
+<body>
+    <h1>Stock Data</h1>
+    <table class="tftable" border="1">
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Currency</th>
+            <th>Exchange</th>
+            <th>MIC Code</th>
+            <th>Country</th>
+            <th>Type</th>
+        </tr>
+        
+        <% data.forEach(function(item) { %>
+            <tr>
+                <td><%= item.symbol %></td>
+                <td><%= item.name %></td>
+                <td><%= item.currency %></td>
+                <td><%= item.exchange %></td>
+                <td><%= item.mic_code %></td>
+                <td><%= item.country %></td>
+                <td><%= item.type %></td>
+            </tr>
+        <% }); %>
+    </table>
+</body>
+</html>
