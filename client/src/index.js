@@ -4,8 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-
+import { json } from 'react-router-dom';
+import axios from 'axios';
 const root = ReactDOM.createRoot(document.getElementById('root'));
+axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.params = json();
 root.render(
   <React.StrictMode>
     <BrowserRouter>

@@ -8,6 +8,7 @@ import Search from './pages/Search/Search.js';
 import Navbar from './components/Navbar/Navbar.js';
  
 function App() {
+
   return (
     <>
       <Navbar />

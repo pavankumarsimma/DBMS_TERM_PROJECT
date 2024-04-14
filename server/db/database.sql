@@ -80,6 +80,10 @@ SELECT * FROM one_day_candle
 WHERE symbol = 'AAPL' AND bucket >= NOW() - INTERVAL '14 days'
 ORDER BY bucket;
 
+SELECT * FROM one_day_candle
+WHERE symbol = 'AAPL'
+ORDER BY bucket DESC limit 1;
+
 ALTER TABLE stocks_real_time 
 SET (
     timescaledb.compress, 
@@ -223,3 +227,106 @@ SELECT DISTINCT ON (time_bucket('${interval}', time))
     GROUP BY
     symbol, stocks_real_time.time
     order by bucket, time;
+
+SELECT DISTINCT ON (time_bucket('1 day', time))
+    time_bucket('1 day', time) AS bucket,
+    symbol,
+    FIRST(price, time) FILTER (WHERE time >= '2024-04-12' ) AS "open",
+    LAST(price, time) FILTER (WHERE  time <= '2024-04-13') AS "close",
+    MAX(price) FILTER (WHERE  time >= '2024-04-12' AND time <= '2024-04-13') AS high,
+    MIN(price) FILTER (WHERE  time >= '2024-04-12' AND time <= '2024-04-13') AS low,
+    SUM(day_volume) FILTER (WHERE time >= '2024-04-12' AND time <= '2024-04-13') AS volume
+    FROM
+    stocks_real_time
+    WHERE
+    symbol = 'AAPL' AND
+    time >= '2024-04-12' AND
+    time <= '2024-04-13' 
+    GROUP BY
+    symbol, stocks_real_time.time
+    order by bucket, time;
+
+
+
+WITH latest_date AS (
+    SELECT MAX(DATE_TRUNC('day', time)) AS latest_date
+    FROM stocks_real_time
+),
+latest_day_data AS (
+    SELECT
+        time_bucket('1 day', time) AS bucket,
+        symbol,
+        FIRST(price, time) FILTER (WHERE time::date = latest_date AND symbol = 'TSLA') AS "open",
+        LAST(price, time) FILTER (WHERE time::date = latest_date AND symbol = 'TSLA') AS "close",
+        MAX(price) FILTER (WHERE time::date = latest_date AND symbol = 'TSLA') AS "high",
+        MIN(price) FILTER (WHERE time::date = latest_date AND symbol = 'TSLA') AS "low"
+    FROM
+        stocks_real_time, latest_date
+    WHERE
+        time::date = latest_date
+    GROUP BY
+        symbol, time_bucket('1 day', time)
+)
+SELECT
+    symbol,
+    "open",
+    "close",
+    "high",
+    "low"
+FROM
+    latest_day_data
+ORDER BY
+    bucket DESC
+LIMIT
+    1;
+
+
+WITH latest_date AS (
+    SELECT MAX(DATE_TRUNC('day', time)) AS latest_date
+    FROM stocks_real_time
+),
+latest_day_data AS (
+    SELECT
+        time_bucket('1 day', time) AS bucket,
+        symbol,
+        FIRST(price, time) FILTER (WHERE time::date = latest_date AND symbol = 'TSLA') AS "open",
+        LAST(price, time) FILTER (WHERE time::date = latest_date AND symbol = 'TSLA') AS "close",
+        MAX(price) FILTER (WHERE time::date = latest_date AND symbol = 'TSLA') AS "high",
+        MIN(price) FILTER (WHERE time::date = latest_date AND symbol = 'TSLA') AS "low"
+    FROM
+        stocks_real_time, latest_date
+    WHERE
+        time::date = latest_date
+    GROUP BY
+        symbol, time_bucket('1 day', time)
+)
+SELECT
+    symbol,
+    "open",
+    "close",
+    "high",
+    "low"
+FROM
+    latest_day_data
+WHERE 
+    symbol='TSLA'
+ORDER BY
+    bucket DESC;
+
+
+SELECT
+    time_bucket('1 day', time) AS bucket,
+    symbol,
+    FIRST(price, time) AS "open",
+    LAST(price, time) AS "close",
+    MAX(price) AS "high",
+    MIN(price) AS "low"
+FROM
+    stocks_real_time
+WHERE
+    symbol = 'YourCompanySymbol'
+    AND time >= NOW() - INTERVAL '30 days'
+GROUP BY
+    bucket, symbol
+ORDER BY
+    bucket DESC;

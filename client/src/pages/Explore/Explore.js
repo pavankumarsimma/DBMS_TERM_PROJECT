@@ -19,7 +19,7 @@ function Explore(){
                     <Candlebars symbol="AAPL"/>
                 </Grid>
                 <Grid item xs={12} md={4} className={styles.card}>
-                    <Infocard3/>
+                    <Infocard3 symbol={"AAPL"}/>
                 </Grid>
             </Grid>
             <Footer/>

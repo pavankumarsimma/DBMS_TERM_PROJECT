@@ -53,13 +53,75 @@ export const getCurrPrice = async(req, res, next) => {
 };
 
 
+export const getDayData = async(req, res, next)=>{
+    let symbol = req.params.symbol;
+    if (symbol==undefined || symbol=="" ){
+        return res.status(500).json({"message":"undefined data given"});
+    }
+    let result;
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+        let queryText = `
+                WITH latest_date AS (
+                    SELECT MAX(DATE_TRUNC('day', time)) AS latest_date
+                    FROM stocks_real_time
+                ),
+                latest_day_data AS (
+                    SELECT
+                        time_bucket('1 day', time) AS bucket,
+                        symbol,
+                        FIRST(price, time) FILTER (WHERE time::date = latest_date) AS "open",
+                        LAST(price, time) FILTER (WHERE time::date = latest_date) AS "close",
+                        MAX(price) FILTER (WHERE time::date = latest_date) AS "high",
+                        MIN(price) FILTER (WHERE time::date = latest_date) AS "low"
+                    FROM
+                        stocks_real_time, latest_date
+                    WHERE
+                        time::date = latest_date
+                    GROUP BY
+                        symbol, time_bucket('1 day', time)
+                )
+                SELECT
+                    symbol,
+                    "open",
+                    "close",
+                    "high",
+                    "low"
+                FROM
+                    latest_day_data
+                WHERE 
+                    symbol='${symbol}'
+                ORDER BY
+                    bucket DESC;
+
+        `;
+        result = await client.query(queryText);
+        
+        await client.query('COMMIT');
+    } catch (e) {
+        await client.query('ROLLBACK');
+        console.log(e);
+    } finally {
+        client.release();
+    }
+    if (!result){
+        return res.status(404).json({message:"db error occured"});
+    }
+    else {
+        if (result.rows.length == 0){
+            return res.status(400).json({message:"No data available"});
+        }
+        return res.status(200).json(result.rows);
+    }
+};
 
 export const getTimeseriesdata = async(req, res, next)=>{
     let {symbol,start, end, interval} = req.body;
     if (interval == undefined || interval==""){
         interval = "30min";
     }
-    
+    console.log(symbol, start, end, interval);
     if (start==undefined ||end==undefined || symbol==undefined  ){
         return res.status(500).json({"message":"undefined data given"});
     }

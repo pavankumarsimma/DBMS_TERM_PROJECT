@@ -23,7 +23,7 @@ const port = process.env.PORT || 5001;
 app.listen(port, () => {
 	console.log(`Server running on port ${port}`);
 });
-fetchDataAndUpdateDatabase();
+//fetchDataAndUpdateDatabase();
 const intervalTime = 21600000; // Interval time in milliseconds (e.g., 60000 ms = 1 minute)
 
 setInterval(fetchDataAndUpdateDatabase, intervalTime);
