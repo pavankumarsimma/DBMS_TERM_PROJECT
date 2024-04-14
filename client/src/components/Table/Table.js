@@ -67,60 +67,6 @@ const rows = [
   { company: 'Exxon Mobil Corporation', symbol: 'XOM', price: 65.20, high: 66.00, low: 64.50, open: 64.75, close: 65.50},
 ];
 
-
-// const columns = [
-//     { id: 'name', label: 'Name', minWidth: 170 },
-//     { id: 'symbol', label: 'Symbol', minWidth: 100 },
-//     {
-//       id: 'price',
-//       label: 'Price',
-//       minWidth: 100
-//     },
-//     {
-//       id: 'high',
-//       label: 'High',
-//       minWidth: 100
-//     },
-//     {
-//       id: 'low',
-//       label: 'Low',
-//       minWidth: 100
-//     },
-//     {
-//       id: 'open',
-//       label: 'Open',
-//       minWidth: 100
-//     },
-//     {
-//       id: 'close',
-//       label: 'Close',
-//       minWidth: 100
-//     },
-//   ];
-  
-//   function createData(name, symbol, high, low, open, close, price) {
-//     const density = population / size;
-//     return { name, symbol, high, low, open, close };
-//   }
-  
-//   const rows = [
-//       createData('Company A', 'A', 100, 50, 75, 80),
-//       createData('Company B', 'B', 120, 60, 90, 100),
-//       createData('Company C', 'C', 80, 40, 70, 75),
-//       createData('Company D', 'D', 110, 55, 85, 95),
-//       createData('Company E', 'E', 130, 65, 95, 110),
-//       createData('Company F', 'F', 90, 45, 75, 85),
-//       createData('Company G', 'G', 115, 57, 88, 98),
-//       createData('Company H', 'H', 95, 47, 78, 82),
-//       createData('Company I', 'I', 105, 52, 82, 90),
-//       createData('Company J', 'J', 125, 62, 92, 105),
-//       createData('Company K', 'K', 85, 42, 72, 78),
-//       createData('Company L', 'L', 112, 56, 87, 97),
-//       createData('Company M', 'M', 135, 67, 97, 112),
-//       createData('Company N', 'N', 88, 44, 74, 80),
-//       createData('Company O', 'O', 118, 59, 89, 100),
-//   ];
-
 function StickyTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);

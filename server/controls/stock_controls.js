@@ -52,7 +52,53 @@ export const getCurrPrice = async(req, res, next) => {
     }
 };
 
+export const getMonthData = async(req, res, next)=>{
+    let symbol = req.params.symbol;
+    if (symbol==undefined || symbol=="" ){
+        return res.status(500).json({"message":"undefined data given"});
+    }
+    let result;
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+        let queryText = `
+            SELECT
+                time_bucket('1 day', time) AS bucket,
+                symbol,
+                FIRST(price, time) AS "open",
+                LAST(price, time) AS "close",
+                MAX(price) AS "high",
+                MIN(price) AS "low"
+            FROM
+                stocks_real_time
+            WHERE
+                symbol = '${symbol}'
+                AND time >= NOW() - INTERVAL '30 days'
+            GROUP BY
+                bucket, symbol
+            ORDER BY
+                bucket DESC;
 
+        `;
+        result = await client.query(queryText);
+        
+        await client.query('COMMIT');
+    } catch (e) {
+        await client.query('ROLLBACK');
+        console.log(e);
+    } finally {
+        client.release();
+    }
+    if (!result){
+        return res.status(404).json({message:"db error occured"});
+    }
+    else {
+        if (result.rows.length == 0){
+            return res.status(400).json({message:"No data available"});
+        }
+        return res.status(200).json(result.rows);
+    }
+};
 export const getDayData = async(req, res, next)=>{
     let symbol = req.params.symbol;
     if (symbol==undefined || symbol=="" ){

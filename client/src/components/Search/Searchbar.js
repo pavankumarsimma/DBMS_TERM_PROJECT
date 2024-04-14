@@ -6,9 +6,9 @@ import styles from './Searchbar.module.css';
 
 function Searchbar() {
   return (
-    <div className={styles.container}>
-        <TextField label="Enter Your Query" focused className={styles.searchinput}/>
-        <Button variant="contained" className={styles.button}>
+    <div className={styles.searchcontainer}>
+        <TextField label="Enter Your Query" focused className={styles.searchsearchinput}/>
+        <Button variant="contained" className={styles.searchbutton}>
             Search
         </Button>
     </div>

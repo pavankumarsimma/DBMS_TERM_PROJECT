@@ -1,4 +1,4 @@
-.container{
+.searchcontainer{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -6,28 +6,28 @@
     height: 100%;
 }
 
-.searchinput{
+.searchsearchinput{
     width: 80%;
     color: white !important;
     border-color: #0BDA51 !important;
 }
 
-.searchinput label{
+.searchsearchinput label{
     color: #00A877 !important;
     font: 1rem 'Poppins', sans-serif !important;
     font-weight: 600 !important;
 }
 
-.searchinput input{
+.searchsearchinput input{
     color: white !important;
     font: 1rem 'Poppins', sans-serif !important;
 }
-.searchinput fieldset{
+.searchsearchinput fieldset{
     border-color:#00A877 !important;
     border-width: 2px !important;
 }
 
-.button{
+.searchbutton{
     margin-top: 3vh !important;
     background-color: #00A877 !important;
     width: 15% !important;
